@@ -7,295 +7,441 @@
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --pink: #f9a8d4;
-    --lavender: #c4b5fd;
-    --mint: #86efac;
-    --peach: #fdba74;
-    --sky: #7dd3fc;
+    --cobalt: #0047AB;
+    --electric: #1B6FE8;
+    --royal: #4169E1;
+    --ice: #B8D4FF;
+    --fuchsia: #CC0099;
+    --magenta: #E040A0;
+    --dark-bg: #040818;
+    --card-bg: #0d1a3a;
+    --card-border: #1a3060;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: linear-gradient(135deg, #fce7f3 0%, #ede9fe 40%, #dbeafe 100%);
+    background: var(--dark-bg);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(0,71,171,0.35) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 5%, rgba(204,0,153,0.2) 0%, transparent 45%),
+      radial-gradient(ellipse at 50% 90%, rgba(27,111,232,0.25) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 60%, rgba(204,0,153,0.15) 0%, transparent 40%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 30px 20px 60px;
+    padding: 36px 18px 70px;
     font-family: 'Nunito', sans-serif;
+    color: #fff;
   }
 
   body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      radial-gradient(circle at 15% 20%, rgba(249,168,212,0.3) 0%, transparent 40%),
-      radial-gradient(circle at 85% 10%, rgba(196,181,253,0.3) 0%, transparent 35%),
-      radial-gradient(circle at 70% 80%, rgba(134,239,172,0.2) 0%, transparent 35%),
-      radial-gradient(circle at 20% 85%, rgba(253,186,116,0.25) 0%, transparent 35%);
-    pointer-events: none;
-    z-index: 0;
+    content: '✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧';
+    position: fixed; top: 0; left: 0; right: 0;
+    font-size: 0.6rem; color: rgba(184,212,255,0.12);
+    letter-spacing: 1.5rem; line-height: 2.5;
+    word-break: break-all; pointer-events: none; z-index: 0; padding: 10px;
   }
 
-  .page { position: relative; z-index: 1; width: 100%; max-width: 900px; }
-  .header { text-align: center; margin-bottom: 28px; animation: floatIn 0.7s ease both; }
+  .page { position: relative; z-index: 1; width: 100%; max-width: 960px; }
+
+  /* HEADER */
+  .header { text-align: center; margin-bottom: 32px; animation: floatIn 0.8s ease both; }
 
   .header h1 {
     font-family: 'Pacifico', cursive;
-    font-size: clamp(2.2rem, 7vw, 4.5rem);
-    background: linear-gradient(135deg, #ec4899, #8b5cf6, #3b82f6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.3;
-    padding: 0.1em 0.05em;
-    filter: drop-shadow(0 2px 8px rgba(139,92,246,0.25));
+    font-size: clamp(2.4rem, 7vw, 5rem);
+    background: linear-gradient(135deg, #B8D4FF 0%, #4169E1 30%, #CC0099 70%, #FF66CC 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1.3; padding: 0.1em 0.1em;
+    filter: drop-shadow(0 0 20px rgba(0,71,171,0.6)) drop-shadow(0 0 40px rgba(204,0,153,0.3));
   }
 
   .header .subtitle {
-    font-size: 1rem; color: #7c3aed; font-weight: 700;
-    letter-spacing: 0.12em; text-transform: uppercase; margin-top: 6px; opacity: 0.75;
+    font-size: 0.9rem; color: var(--ice); font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; margin-top: 8px; opacity: 0.7;
   }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-    width: 100%;
-  }
+  .stars { font-size: 1.2rem; margin-top: 4px; opacity: 0.6; letter-spacing: 0.3rem; }
+
+  /* PROGRESS */
+  .progress-wrap { width: 100%; margin-bottom: 28px; animation: floatIn 0.8s 0.2s ease both; }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label { font-size: 0.85rem; font-weight: 800; color: var(--ice); letter-spacing: 0.06em; }
+  .progress-pct { font-size: 0.85rem; font-weight: 800; color: var(--magenta); }
+  .bar-bg { width: 100%; height: 12px; background: rgba(184,212,255,0.12); border-radius: 99px; overflow: hidden; border: 1px solid rgba(184,212,255,0.15); }
+  .bar-fill { height: 100%; background: linear-gradient(90deg, #0047AB, #4169E1, #CC0099, #FF66CC); border-radius: 99px; transition: width 0.7s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 0 12px rgba(0,71,171,0.6); }
+  .hint { font-size: 0.72rem; color: rgba(184,212,255,0.5); margin-top: 7px; font-weight: 700; text-align: center; letter-spacing: 0.05em; }
+
+  /* GRID */
+  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; width: 100%; margin-bottom: 10px; }
+
+  .grid-overflow { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 10px; }
+  .grid-overflow .cell { width: calc(20% - 8px); max-width: 180px; }
 
   .cell {
-    background: white;
-    border-radius: 18px;
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    border-radius: 16px;
     padding: 10px 8px 9px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
     text-align: center;
-    box-shadow: 0 4px 14px rgba(139,92,246,0.1), 0 1px 3px rgba(0,0,0,0.06);
-    min-height: 130px;
-    position: relative;
-    border: 2.5px solid transparent;
-    animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
-    transition: box-shadow 0.2s ease, background 0.25s ease, transform 0.18s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(184,212,255,0.06);
+    min-height: 128px; position: relative;
+    transition: box-shadow 0.2s ease, background 0.25s ease, transform 0.18s ease, border-color 0.2s ease;
   }
 
-  .cell[data-row="0"] { border-top: 4px solid var(--pink); }
-  .cell[data-row="1"] { border-top: 4px solid var(--sky); }
-  .cell[data-row="2"] { border-top: 4px solid var(--mint); }
-  .cell[data-row="3"] { border-top: 4px solid var(--peach); }
-  .cell[data-row="4"] { border-top: 4px solid var(--lavender); }
+  .cell.anim-in { animation: popIn 0.45s cubic-bezier(0.34,1.56,0.64,1) both; }
 
-  .cell.done {
-    background: linear-gradient(135deg, var(--pink) 0%, var(--lavender) 100%);
-    border-color: rgba(255,255,255,0.5) !important;
-    box-shadow: 0 6px 20px rgba(236,72,153,0.28);
-  }
-  .cell.done .label { color: #4a1942; }
-  .cell.done .mini-prog { color: #6d28d9; }
+  .cell[data-row="0"] { border-top: 3px solid #0047AB; }
+  .cell[data-row="1"] { border-top: 3px solid #CC0099; }
+  .cell[data-row="2"] { border-top: 3px solid #4169E1; }
+  .cell[data-row="3"] { border-top: 3px solid #9900CC; }
+  .cell[data-row="4"] { border-top: 3px solid #1B6FE8; }
+  .cell[data-row="5"] { border-top: 3px solid #FF66CC; }
 
   .cell.single { cursor: pointer; }
-  .cell.single:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 12px 28px rgba(139,92,246,0.2); }
-  .cell.done.single::after {
-    content: '✓';
-    position: absolute; top: 6px; right: 8px;
-    font-size: 0.75rem; font-weight: 900; color: #7c3aed;
-    background: rgba(255,255,255,0.65); border-radius: 50%;
-    width: 19px; height: 19px; display: flex; align-items: center; justify-content: center; line-height: 19px;
+  .cell.single:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 0 25px rgba(0,71,171,0.5), 0 0 50px rgba(204,0,153,0.2);
+    border-color: rgba(184,212,255,0.4);
   }
 
-  .emoji { font-size: 1.75rem; line-height: 1; flex-shrink: 0; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1)); }
-  .label { font-size: 0.68rem; font-weight: 800; color: #4b2d8f; line-height: 1.25; }
+  .emoji { font-size: 1.7rem; line-height: 1; flex-shrink: 0; filter: drop-shadow(0 0 6px rgba(184,212,255,0.3)); }
+  .label { font-size: 0.66rem; font-weight: 800; color: var(--ice); line-height: 1.25; }
 
-  .sub-checks {
-    display: flex; flex-wrap: wrap; justify-content: center;
-    gap: 3px; margin-top: 3px; width: 100%;
-  }
+  .sub-checks { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; margin-top: 3px; width: 100%; }
 
   .chk {
-    width: 15px; height: 15px; border-radius: 4px;
-    border: 2px solid #c4b5fd; background: white;
+    width: 14px; height: 14px; border-radius: 3px;
+    border: 1.5px solid rgba(184,212,255,0.3);
+    background: rgba(184,212,255,0.05);
     cursor: pointer; display: flex; align-items: center; justify-content: center;
-    font-size: 8px; font-weight: 900; color: transparent;
-    transition: background 0.14s, border-color 0.14s, transform 0.1s, color 0.14s;
-    flex-shrink: 0; user-select: none;
+    font-size: 7px; font-weight: 900; color: transparent;
+    transition: all 0.14s ease; flex-shrink: 0; user-select: none;
   }
-  .chk:hover { border-color: #8b5cf6; transform: scale(1.18); }
-  .chk.on { background: linear-gradient(135deg, #ec4899, #8b5cf6); border-color: transparent; color: white; }
+  .chk:hover { border-color: var(--electric); transform: scale(1.2); background: rgba(27,111,232,0.2); }
+  .chk.on { background: linear-gradient(135deg, #0047AB, #CC0099); border-color: transparent; color: white; box-shadow: 0 0 6px rgba(0,71,171,0.5); }
+  .chk.milestone { width: auto; min-width: 20px; padding: 0 3px; height: 14px; font-size: 6.5px; font-weight: 800; }
 
-  .chk.milestone {
-    width: auto; min-width: 22px; padding: 0 3px;
-    font-size: 7px; font-weight: 800; flex-direction: column; gap: 0;
+  .mini-prog { font-size: 0.56rem; font-weight: 800; color: rgba(184,212,255,0.5); letter-spacing: 0.03em; margin-top: 1px; }
+
+  /* DIVIDER */
+  .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(184,212,255,0.2), rgba(204,0,153,0.3), rgba(184,212,255,0.2), transparent); margin: 36px 0 0; }
+
+  /* COMPLETED SECTION */
+  .completed-section { margin-top: 28px; width: 100%; animation: floatIn 0.8s 0.4s ease both; }
+
+  .completed-title {
+    text-align: center; font-family: 'Pacifico', cursive; font-size: 1.6rem;
+    background: linear-gradient(135deg, #B8D4FF, #CC0099);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 16px; filter: drop-shadow(0 0 10px rgba(204,0,153,0.3));
   }
-  .chk.milestone .mnum { font-size: 6px; line-height: 1; }
 
-  .mini-prog { font-size: 0.58rem; font-weight: 800; color: #9d77d4; letter-spacing: 0.03em; margin-top: 1px; }
+  .completed-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
 
-  .progress-wrap { margin-top: 26px; text-align: center; animation: floatIn 0.7s 0.3s ease both; }
-  .progress-label { font-size: 0.9rem; font-weight: 800; color: #6d28d9; margin-bottom: 8px; letter-spacing: 0.05em; }
-  .bar-bg { width: 100%; max-width: 420px; height: 14px; background: rgba(196,181,253,0.3); border-radius: 99px; margin: 0 auto; overflow: hidden; }
-  .bar-fill { height: 100%; background: linear-gradient(90deg, #f472b6, #8b5cf6, #60a5fa); border-radius: 99px; transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1); }
-  .hint { font-size: 0.75rem; color: #a78bfa; margin-top: 10px; font-weight: 600; }
+  .completed-pill {
+    background: linear-gradient(135deg, rgba(0,71,171,0.4), rgba(204,0,153,0.3));
+    border: 1.5px solid rgba(184,212,255,0.25);
+    border-radius: 99px; padding: 8px 16px;
+    display: flex; align-items: center; gap: 7px;
+    font-size: 0.78rem; font-weight: 800; color: var(--ice);
+    box-shadow: 0 0 14px rgba(0,71,171,0.2), inset 0 1px 0 rgba(255,255,255,0.08);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    animation: popIn 0.45s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
 
-  @keyframes floatIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes popIn   { from { opacity:0; transform:scale(0.7); } to { opacity:1; transform:scale(1); } }
+  .completed-pill:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(204,0,153,0.3);
+    opacity: 0.85;
+  }
 
-  .cell:nth-child(1){animation-delay:.05s} .cell:nth-child(2){animation-delay:.08s}
-  .cell:nth-child(3){animation-delay:.11s} .cell:nth-child(4){animation-delay:.14s}
-  .cell:nth-child(5){animation-delay:.17s} .cell:nth-child(6){animation-delay:.20s}
-  .cell:nth-child(7){animation-delay:.23s} .cell:nth-child(8){animation-delay:.26s}
-  .cell:nth-child(9){animation-delay:.29s} .cell:nth-child(10){animation-delay:.32s}
-  .cell:nth-child(11){animation-delay:.35s} .cell:nth-child(12){animation-delay:.38s}
-  .cell:nth-child(13){animation-delay:.41s} .cell:nth-child(14){animation-delay:.44s}
-  .cell:nth-child(15){animation-delay:.47s} .cell:nth-child(16){animation-delay:.50s}
-  .cell:nth-child(17){animation-delay:.53s} .cell:nth-child(18){animation-delay:.56s}
-  .cell:nth-child(19){animation-delay:.59s} .cell:nth-child(20){animation-delay:.62s}
-  .cell:nth-child(21){animation-delay:.65s} .cell:nth-child(22){animation-delay:.68s}
-  .cell:nth-child(23){animation-delay:.71s} .cell:nth-child(24){animation-delay:.74s}
-  .cell:nth-child(25){animation-delay:.77s}
+  .completed-pill:hover::after {
+    content: ' ↩ undo';
+    font-size: 0.65rem;
+    color: rgba(184,212,255,0.6);
+    font-weight: 700;
+  }
 
-  @media (max-width:620px) {
-    .grid{gap:6px}
-    .cell{min-height:100px;padding:7px 5px;border-radius:12px}
-    .emoji{font-size:1.4rem}
-    .label{font-size:0.6rem}
-    .chk{width:13px;height:13px;font-size:7px}
-    .chk.milestone{min-width:19px}
-    .mini-prog{font-size:.52rem}
+  .pill-check {
+    width: 18px; height: 18px;
+    background: linear-gradient(135deg, #0047AB, #CC0099);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: white; font-weight: 900; flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(0,71,171,0.5);
+  }
+
+  .completed-empty {
+    text-align: center; font-size: 0.78rem; color: rgba(184,212,255,0.3);
+    font-weight: 700; letter-spacing: 0.08em; padding: 12px;
+  }
+
+  @keyframes floatIn { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes popIn   { from { opacity:0; transform:scale(0.75); }      to { opacity:1; transform:scale(1); } }
+  @keyframes slideDown { from { opacity:0; transform:translateY(-10px) scale(0.9); } to { opacity:1; transform:translateY(0) scale(1); } }
+
+  @media (max-width:640px) {
+    .grid { gap:7px; }
+    .grid-overflow { gap:7px; }
+    .grid-overflow .cell { width: calc(50% - 4px); max-width: none; }
+    .cell { min-height:105px; padding:8px 5px; border-radius:12px; }
+    .emoji { font-size:1.4rem; }
+    .label { font-size:0.58rem; }
+    .chk { width:12px; height:12px; font-size:6px; }
+    .chk.milestone { min-width:18px; font-size:6px; }
+    .mini-prog { font-size:.5rem; }
+    .completed-pill { font-size:0.7rem; padding:6px 12px; }
   }
 </style>
 </head>
 <body>
 <div class="page">
+
   <div class="header">
     <h1>Rachael's 2026 Bingo ✨</h1>
-    <p class="subtitle">check off each item as you go! 🎉</p>
+    <p class="subtitle">your year, your goals, let's go!</p>
+    <div class="stars">✦ ✦ ✦</div>
   </div>
-  <div class="grid" id="grid"></div>
+
   <div class="progress-wrap">
-    <div class="progress-label" id="progressLabel">0 / 25 completed</div>
+    <div class="progress-top">
+      <span class="progress-label" id="progressLabel">0 / 27 completed</span>
+      <span class="progress-pct" id="progressPct">0%</span>
+    </div>
     <div class="bar-bg"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
-    <div class="hint" id="hintText">Keep going — you've got this! 💫</div>
+    <div class="hint" id="hintText">tap a square to mark it done ✦</div>
   </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="grid-overflow" id="gridOverflow"></div>
+
+  <div class="divider"></div>
+
+  <div class="completed-section">
+    <div class="completed-title">✦ Already Crushed It ✦</div>
+    <div class="completed-grid" id="completedGrid"></div>
+  </div>
+
 </div>
 
 <script>
 const CELLS = [
-  { emoji:"🍎", label:"5 Farmers\nMarkets",          steps:5 },
-  { emoji:"🏞️", label:"10 Lake\nHangs",              steps:10 },
-  { emoji:"🐾", label:"25 Sniff Spots\nw/ Willow",   steps:25, milestones:[5,10,15,20,25] },
-  { emoji:"🎭", label:"Theater\nShow",               single:true },
-  { emoji:"🌸", label:"Solo Trip\nw/ Willow",        single:true },
-  { emoji:"🥾", label:"5 Hikes",                     steps:5 },
-  { emoji:"💅", label:"5 Solo\nDates",               steps:5 },
-  { emoji:"🏃", label:"10K",                         single:true },
-  { emoji:"📸", label:"10 Photo\nShoots",            steps:10 },
-  { emoji:"🚈", label:"Light Rail to\nDowntown",     steps:5 },
-  { emoji:"📚", label:"Read 55\nBooks",              steps:55, milestones:[5,10,15,20,25,30,35,40,45,50,55] },
-  { emoji:"🖼️", label:"Replace\nPhoto Wall",         single:true },
-  { emoji:"💌", label:"15 First\nDates",             steps:15, milestones:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] },
-  { emoji:"🗺️", label:"Visit a\nNew State",          single:true },
-  { emoji:"🚂", label:"Train\nRide",                 single:true },
-  { emoji:"🎵", label:"Concert",                     single:true, initDone:true },
-  { emoji:"🎨", label:"Creative\nClass",             single:true },
-  { emoji:"🎪", label:"Festival",                    single:true },
-  { emoji:"📖", label:"Create or Join\nBook Club",   single:true },
-  { emoji:"⚽", label:"5 Kinds of\nSporting Events", steps:5 },
-  { emoji:"🧳", label:"Solo\nTrip",                  single:true },
-  { emoji:"✈️", label:"International\nTrip",         single:true },
-  { emoji:"🧘", label:"100 Solidcore\nClasses",      steps:100, milestones:[25,50,70,80,90,100] },
-  { emoji:"⛴️", label:"Ferry\nRide",                 single:true },
-  { emoji:"🍷", label:"Solo Fancy\nDinner Date",     single:true },
+  // Row 0
+  { emoji:"🍎", label:"5 Farmers\nMarkets",               steps:5 },
+  { emoji:"🏞️", label:"10 Lake\nHangs",                   steps:10 },
+  { emoji:"🎭", label:"Theater\nShow",                    single:true },
+  { emoji:"🥾", label:"5 Hikes",                          steps:5 },
+  { emoji:"🏃", label:"Run a 10K",                        single:true },
+  // Row 1
+  { emoji:"📸", label:"10 Photo\nShoots",                 steps:10 },
+  { emoji:"🚈", label:"Light Rail to\nDowntown",          steps:10 },
+  { emoji:"📚", label:"Read 55\nBooks",                   steps:55, milestones:[5,10,15,20,25,30,35,40,45,50,55] },
+  { emoji:"💌", label:"15 First\nDates",                  steps:15, milestones:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] },
+  { emoji:"🎵", label:"Concert",                          single:true },
+  // Row 2
+  { emoji:"🎨", label:"Creative\nClass",                  single:true },
+  { emoji:"🎪", label:"Festival",                         single:true },
+  { emoji:"⚽", label:"5 Kinds of\nSporting Events",      steps:5 },
+  { emoji:"🧳", label:"Solo\nTrip",                       single:true },
+  { emoji:"🧘", label:"100 Solidcore\nClasses",           steps:100, milestones:[5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100] },
+  // Row 3
+  { emoji:"⛴️", label:"Ferry\nRide",                      single:true },
+  { emoji:"🍷", label:"Solo Fancy\nDinner Date",          single:true },
+  { emoji:"🎤", label:"Perform at\nKaraoke",              steps:2 },
+  { emoji:"🍽️", label:"Try 10 New\nRestaurants",          steps:10 },
+  { emoji:"🚣", label:"Go Kayaking",                      steps:10 },
+  // Row 4
+  { emoji:"🐶", label:"Willow Somewhere\nNew Each Month", steps:7, monthMode:true },
+  { emoji:"💰", label:"Savings to\n$75K",                 single:true },
+  { emoji:"👔", label:"5 LinkedIn\nRecommendations",      steps:5 },
+  { emoji:"☕", label:"Try 5 New\nCoffee Shops",           steps:5 },
+  { emoji:"🌅", label:"Sunset at 5\nDifferent Spots",     steps:5 },
+  // Overflow (2 items)
+  { emoji:"🎬", label:"See a Movie\nAlone",               single:true },
+  { emoji:"💐", label:"Buy Myself\nFlowers",              steps:10 },
 ];
+
+// Pre-completed items (not in CELLS, always in crushed section, no undo)
+const PRE_CRUSHED = [
+  { emoji:"🌸", label:"Solo Trip w/ Willow" },
+  { emoji:"📖", label:"Create or Join Book Club" },
+  { emoji:"🗺️", label:"Visit a New State" },
+  { emoji:"✈️", label:"International Trip" },
+  { emoji:"✨", label:"Get a New Piercing" },
+];
+
+const MONTHS = ['Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 const HINTS = [
-  "Keep going — you've got this! 💫",
-  "Great start! ✨",
-  "You're on a roll! 🌟",
-  "Halfway there! 🌈",
-  "Almost done!! 🔥",
-  "BINGO LEGEND!! 🏆🎉"
+  "tap a square to mark it done ✦",
+  "great start, keep going! ✦",
+  "you're on a roll! 🔥",
+  "halfway there, incredible! ✦",
+  "almost done, you're crushing it! 💙",
+  "BINGO LEGEND — you did it!! 🏆"
 ];
 
-let saved = (() => { try { return JSON.parse(localStorage.getItem('bingo2026v3') || '{}'); } catch(e){ return {}; } })();
-function persist() { localStorage.setItem('bingo2026v3', JSON.stringify(saved)); }
+let saved = (() => { try { return JSON.parse(localStorage.getItem('bingo2026v5') || '{}'); } catch(e){ return {}; } })();
+function persist() { localStorage.setItem('bingo2026v5', JSON.stringify(saved)); }
 
 function checkedCount(i) {
   const c = CELLS[i];
   if (c.single) return null;
   const s = saved[i];
   if (!s) return 0;
+  if (c.monthMode) return typeof s === 'object' ? Object.values(s).filter(Boolean).length : 0;
   if (c.milestones) return typeof s === 'number' ? s : 0;
   return Object.values(s).filter(Boolean).length;
 }
 
 function isDone(i) {
   const c = CELLS[i];
-  if (c.single) return saved[i] === true || (saved[i] === undefined && c.initDone);
+  if (c.single) return saved[i] === true;
   return checkedCount(i) >= c.steps;
+}
+
+function makeCell(c, i, rowOverride) {
+  const done = isDone(i);
+  const row = rowOverride !== undefined ? rowOverride : Math.floor(i / 5);
+  const div = document.createElement('div');
+  div.className = 'cell anim-in' + (c.single ? ' single' : '');
+  div.dataset.row = row;
+  div.dataset.idx = i;
+
+  const emojiEl = `<span class="emoji">${c.emoji}</span>`;
+  const labelEl = `<span class="label">${c.label.replace(/\n/g,'<br>')}</span>`;
+
+  if (c.single) {
+    div.innerHTML = emojiEl + labelEl;
+    div.addEventListener('click', () => {
+      saved[i] = true;
+      persist();
+      render();
+    });
+  } else {
+    const cnt = checkedCount(i);
+    let boxesHtml = '';
+
+    if (c.monthMode) {
+      const s = saved[i] || {};
+      boxesHtml = MONTHS.map((m, j) =>
+        `<div class="chk milestone${s[j]?' on':''}" data-j="${j}" style="min-width:22px;font-size:6px">${m}</div>`
+      ).join('');
+    } else if (c.milestones) {
+      boxesHtml = c.milestones.map(m => {
+        const on = cnt >= m;
+        return `<div class="chk milestone${on?' on':''}" data-m="${m}">${m}</div>`;
+      }).join('');
+    } else {
+      const s = saved[i] || {};
+      boxesHtml = Array.from({length: c.steps}, (_,j) =>
+        `<div class="chk${s[j]?' on':''}" data-j="${j}">✓</div>`
+      ).join('');
+    }
+
+    div.innerHTML = `${emojiEl}${labelEl}<div class="sub-checks">${boxesHtml}</div><div class="mini-prog">${cnt} / ${c.steps}</div>`;
+
+    div.querySelectorAll('.chk').forEach(chk => {
+      chk.addEventListener('click', e => {
+        e.stopPropagation();
+        if (c.monthMode) {
+          if (!saved[i] || typeof saved[i] !== 'object') saved[i] = {};
+          const j = parseInt(chk.dataset.j);
+          saved[i][j] = !saved[i][j];
+        } else if (c.milestones) {
+          const m = parseInt(chk.dataset.m);
+          const cur = checkedCount(i);
+          saved[i] = (cur >= m) ? (c.milestones[c.milestones.indexOf(m) - 1] || 0) : m;
+        } else {
+          if (!saved[i] || typeof saved[i] !== 'object') saved[i] = {};
+          const j = parseInt(chk.dataset.j);
+          saved[i][j] = !saved[i][j];
+        }
+        persist();
+        render();
+      });
+    });
+  }
+
+  return div;
+}
+
+function makePill(emoji, label, idx) {
+  const pill = document.createElement('div');
+  pill.className = 'completed-pill';
+  pill.innerHTML = `<div class="pill-check">✓</div><span>${emoji} ${label}</span>`;
+
+  // Only CELLS items (idx >= 0) are undoable
+  if (idx >= 0) {
+    pill.addEventListener('click', () => {
+      // Move back to grid: clear saved state
+      delete saved[idx];
+      persist();
+      render();
+    });
+  } else {
+    // Pre-crushed — no undo, no hover effect
+    pill.style.cursor = 'default';
+    pill.style.pointerEvents = 'none';
+  }
+
+  return pill;
 }
 
 function render() {
   const grid = document.getElementById('grid');
+  const overflow = document.getElementById('gridOverflow');
+  const cg = document.getElementById('completedGrid');
   grid.innerHTML = '';
+  overflow.innerHTML = '';
+  cg.innerHTML = '';
+
+  let activeIdx = 0; // position in the 5-col grid
   let doneCount = 0;
+  const total = CELLS.length;
+
+  // Pre-crushed pills first
+  PRE_CRUSHED.forEach(item => {
+    cg.appendChild(makePill(item.emoji, item.label, -1));
+  });
 
   CELLS.forEach((c, i) => {
     const done = isDone(i);
-    if (done) doneCount++;
-    const row = Math.floor(i / 5);
-    const div = document.createElement('div');
-    div.className = 'cell' + (c.single ? ' single' : '') + (done ? ' done' : '');
-    div.dataset.row = row;
-
-    const emojiEl = `<span class="emoji">${c.emoji}</span>`;
-    const labelEl = `<span class="label">${c.label.replace(/\n/g,'<br>')}</span>`;
-
-    if (c.single) {
-      div.innerHTML = emojiEl + labelEl;
-      div.addEventListener('click', () => { saved[i] = !done; persist(); render(); });
+    if (done) {
+      doneCount++;
+      // Add to crushed section
+      const pill = makePill(c.emoji, c.label.replace(/\n/g,' '), i);
+      cg.appendChild(pill);
     } else {
-      const cnt = checkedCount(i);
-      let boxesHtml = '';
-      if (c.milestones) {
-        boxesHtml = c.milestones.map(m => {
-          const on = cnt >= m;
-          return `<div class="chk milestone${on?' on':''}" data-m="${m}"><span class="mnum">${m}</span></div>`;
-        }).join('');
+      // Add to grid
+      const row = Math.floor(activeIdx / 5);
+      const cell = makeCell(c, i, row);
+      if (activeIdx < 25) {
+        grid.appendChild(cell);
       } else {
-        const s = saved[i] || {};
-        boxesHtml = Array.from({length: c.steps}, (_,j) =>
-          `<div class="chk${s[j]?' on':''}" data-j="${j}">✓</div>`
-        ).join('');
+        overflow.appendChild(cell);
       }
-      div.innerHTML = `${emojiEl}${labelEl}<div class="sub-checks">${boxesHtml}</div><div class="mini-prog">${cnt} / ${c.steps}</div>`;
-
-      div.querySelectorAll('.chk').forEach(chk => {
-        chk.addEventListener('click', e => {
-          e.stopPropagation();
-          if (c.milestones) {
-            const m = parseInt(chk.dataset.m);
-            const cur = checkedCount(i);
-            saved[i] = (cur >= m) ? (c.milestones[c.milestones.indexOf(m) - 1] || 0) : m;
-          } else {
-            if (!saved[i] || typeof saved[i] !== 'object') saved[i] = {};
-            const j = parseInt(chk.dataset.j);
-            saved[i][j] = !saved[i][j];
-          }
-          persist();
-          render();
-        });
-      });
+      activeIdx++;
     }
-    grid.appendChild(div);
   });
 
-  document.getElementById('progressLabel').textContent = `${doneCount} / 25 completed`;
-  document.getElementById('barFill').style.width = `${(doneCount/25)*100}%`;
-  document.getElementById('hintText').textContent = HINTS[Math.min(Math.floor(doneCount/5), HINTS.length-1)];
+  // Empty state for crushed section
+  if (cg.children.length === PRE_CRUSHED.length) {
+    const empty = document.createElement('div');
+    empty.className = 'completed-empty';
+    empty.textContent = 'Complete a goal to see it here! ✦';
+    cg.appendChild(empty);
+  }
+
+  // Progress (count only CELLS, not PRE_CRUSHED)
+  document.getElementById('progressLabel').textContent = `${doneCount} / ${total} completed`;
+  document.getElementById('progressPct').textContent = `${Math.round((doneCount/total)*100)}%`;
+  document.getElementById('barFill').style.width = `${(doneCount/total)*100}%`;
+  document.getElementById('hintText').textContent = HINTS[Math.min(Math.floor(doneCount/(total/5)), HINTS.length-1)];
 }
 
 render();
