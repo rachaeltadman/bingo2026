@@ -54,7 +54,7 @@
     font-size: clamp(2.4rem, 7vw, 5rem);
     background: linear-gradient(135deg, #B8D4FF 0%, #4169E1 30%, #CC0099 70%, #FF66CC 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    line-height: 1.3; padding: 0.1em 0.1em;
+    line-height: 1.5; padding: 0.15em 0.15em 0.25em;
     filter: drop-shadow(0 0 20px rgba(0,71,171,0.6)) drop-shadow(0 0 40px rgba(204,0,153,0.3));
   }
 
@@ -437,11 +437,13 @@ function render() {
     cg.appendChild(empty);
   }
 
-  // Progress (count only CELLS, not PRE_CRUSHED)
-  document.getElementById('progressLabel').textContent = `${doneCount} / ${total} completed`;
-  document.getElementById('progressPct').textContent = `${Math.round((doneCount/total)*100)}%`;
-  document.getElementById('barFill').style.width = `${(doneCount/total)*100}%`;
-  document.getElementById('hintText').textContent = HINTS[Math.min(Math.floor(doneCount/(total/5)), HINTS.length-1)];
+  // Progress (include PRE_CRUSHED in total and count)
+  const grandTotal = total + PRE_CRUSHED.length;
+  const grandDone = doneCount + PRE_CRUSHED.length;
+  document.getElementById('progressLabel').textContent = `${grandDone} / ${grandTotal} completed`;
+  document.getElementById('progressPct').textContent = `${Math.round((grandDone/grandTotal)*100)}%`;
+  document.getElementById('barFill').style.width = `${(grandDone/grandTotal)*100}%`;
+  document.getElementById('hintText').textContent = HINTS[Math.min(Math.floor(grandDone/(grandTotal/5)), HINTS.length-1)];
 }
 
 render();
